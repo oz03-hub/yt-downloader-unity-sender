@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 
 import yt_dlp
+from yt_dlp.utils import match_filter_func
 import innertube
 
 COLLECTED_IDS_FILE = Path("collected_ids.txt")
@@ -76,6 +77,9 @@ def _build_dl(out_dir: Path, cookies: Path | None) -> yt_dlp.YoutubeDL:
             "preferredcodec": "wav",
             "preferredquality": "0",
         }],
+        "match_filter": match_filter_func("!is_live"),
+	"live_from_start": False,
+        "ignore_no_formats_error": True,
         "extractor_args": {"youtube": {"player_client": ["web"]}},
     }
     if cookies:
